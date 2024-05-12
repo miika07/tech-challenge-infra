@@ -23,7 +23,7 @@ module "eks" {
     attach_cluster_primary_security_group = true
   }
   eks_managed_node_groups = {
-    amc-cluster-wg = {
+    tech-challenge-cluster-one = {
       min_size     = 1
       max_size     = 2
       desired_size = 1

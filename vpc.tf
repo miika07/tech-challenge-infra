@@ -8,6 +8,14 @@ module "vpc" {
   enable_nat_gateway = true
   azs                = local.azs_vpc
   tags = {
-    Environment = "VPC Tech Challenge"
+    Environment = "VPC Tech Challenge - 1"
+  }
+  
+    public_subnet_tags = {
+    "kubernetes.io/role/elb" = 1
+  }
+
+  private_subnet_tags = {
+    "kubernetes.io/role/internal-elb" = 1
   }
 }
