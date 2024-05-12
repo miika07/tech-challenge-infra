@@ -23,7 +23,7 @@ module "eks" {
     attach_cluster_primary_security_group = true
   }
   eks_managed_node_groups = {
-    tech-challenge-cluster-one = {
+    node = {
       min_size     = 1
       max_size     = 2
       desired_size = 1
