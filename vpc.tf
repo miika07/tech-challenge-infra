@@ -11,11 +11,17 @@ module "vpc" {
     Environment = "VPC Tech Challenge - 1"
   }
 
+  tags = {
+    "kubernetes.io/cluster/${local.name_cluster}" = "shared",
+  }
+
   public_subnet_tags = {
-    "kubernetes.io/role/elb" = 1
+    "kubernetes.io/cluster/${local.name_cluster}" = "shared"
+    "kubernetes.io/role/elb"                        = "1"
   }
 
   private_subnet_tags = {
-    "kubernetes.io/role/internal-elb" = 1
+    "kubernetes.io/cluster/${local.name_cluster}" = "shared"
+    "kubernetes.io/role/internal-elb"               = "1"
   }
 }
