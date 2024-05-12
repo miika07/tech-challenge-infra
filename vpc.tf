@@ -10,8 +10,8 @@ module "vpc" {
   tags = {
     Environment = "VPC Tech Challenge - 1"
   }
-  
-    public_subnet_tags = {
+
+  public_subnet_tags = {
     "kubernetes.io/role/elb" = 1
   }
 
