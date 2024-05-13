@@ -2,40 +2,39 @@ module "eks" {
   source                                   = "terraform-aws-modules/eks/aws"
   version                                  = "20.8.5"
   cluster_name                             = local.name_cluster
-  iam_role_arn                             = aws_iam_role.eks_cluster_role.arn
   cluster_endpoint_public_access           = true
   enable_cluster_creator_admin_permissions = true
+  vpc_id                                   = module.vpc.vpc_id
+  subnet_ids                               = module.vpc.private_subnets
 
   cluster_addons = {
-    coredns = {
-      most_recent = true
-    }
-    kube-proxy = {
-      most_recent = true
-    }
-    vpc-cni = {
-      most_recent = true
+    aws-ebs-csi-driver = {
+      service_account_role_arn = module.irsa-ebs-csi.iam_role_arn
     }
   }
-  vpc_id     = local.vpc_id
-  subnet_ids = [local.subnet_a, local.subnet_b]
 
   eks_managed_node_group_defaults = {
-    ami_type                              = "AL2_x86_64"
-    instance_types                        = ["t3.small"]
-    attach_cluster_primary_security_group = true
+    ami_type = "AL2_x86_64"
   }
+
   eks_managed_node_groups = {
-    node = {
+    ngOne = {
+      name         = "ng-1"
       min_size     = 1
-      max_size     = 2
-      desired_size = 1
+      max_size     = 3
+      desired_size = 2
 
       instance_types = ["t3.small"]
-      capacity_type  = "SPOT"
+    }
+
+    ngTwo = {
+      name         = "ng-2"
+      min_size     = 1
+      max_size     = 3
+      desired_size = 2
+
+      instance_types = ["t3.small"]
     }
   }
   tags = local.tags
-
-  depends_on = [aws_iam_role.eks_cluster_role]
 }
