@@ -1,8 +1,8 @@
 module "eks" {
   source                                   = "terraform-aws-modules/eks/aws"
-  version                                  = "19.15.1"
+  version                                  = "20.8.5"
   cluster_name                             = local.name_cluster
-  cluster_iam_role_arn                     = aws_iam_role.eks_cluster_role.arn
+  iam_role_arn                             = aws_iam_role.eks_cluster_role.arn
   cluster_endpoint_public_access           = true
   enable_cluster_creator_admin_permissions = true
 
@@ -36,4 +36,6 @@ module "eks" {
     }
   }
   tags = local.tags
+
+  depends_on = [aws_iam_role.eks_cluster_role]
 }
